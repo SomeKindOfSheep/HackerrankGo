@@ -1,21 +1,112 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"strings"
+)
 
 func main() {
 
 	//ar := []int64{1000000001, 1000000002, 1000000003, 1000000004, 1000000005}
-	arr := [][]int32{
+	/*	arr := [][]int32{
 		{1},
 		{1, 2, 3},
 		{4, 5, 6},
 		{4, 5},
 		{4},
 		{9, 8, 9},
+	}*/
+
+	//diagonalDifference(arr)
+	//fmt.Println(aVeryBigSum(ar))xx
+
+	//ar := []int32{1, 1, 0, -1, -2}
+	//plusMinus(ar)
+
+	//staircase(6)
+
+	//ar := []int32{7, 69, 2, 221, 8974}
+	//miniMaxSum(ar)
+
+}
+
+func miniMaxSum(arr []int32) {
+
+	// have to sort
+	var i = 1
+	for i < len(arr) {
+		var j = i
+		for j >= 1 && arr[j] < arr[j-1] {
+			arr[j], arr[j-1] = arr[j-1], arr[j]
+			j--
+		}
+		i++
 	}
 
-	diagonalDifference(arr)
-	//fmt.Println(aVeryBigSum(ar))xx
+	var sumMin int64 = 0
+	var sumMax int64 = 0
+
+	for i := 0; i < len(arr); i++ {
+		// sum max
+		if i > 0 {
+			sumMax = sumMax + int64(arr[i])
+		}
+		// sum min
+		if i+1 < len(arr) {
+			sumMin = sumMin + int64(arr[i])
+		}
+	}
+	fmt.Println(sumMin, sumMax)
+}
+
+func staircase(n int32) {
+
+	var stairs strings.Builder
+	for i := 1; i < int(n)+1; i++ {
+		var lineSb strings.Builder
+		diff := int(n) - i
+
+		for j := 0; j < int(n); j++ {
+
+			if j >= diff {
+				lineSb.WriteString("#")
+			}
+			if j < diff {
+				lineSb.WriteRune(' ')
+			}
+		}
+		stairs.WriteString(lineSb.String() + "\n")
+	}
+	fmt.Println(stairs.String())
+}
+
+func plusMinus(arr []int32) {
+
+	arrSize := len(arr)
+	pos := 0
+	neg := 0
+	zero := 0
+
+	for i := 0; i < len(arr); i++ {
+
+		if arr[i] > 0 {
+			pos = pos + 1
+		}
+		if arr[i] < 0 {
+			neg = neg + 1
+		}
+		if arr[i] == 0 {
+			zero = zero + 1
+		}
+	}
+
+	x := float32(pos) / float32(arrSize)
+	y := float32(neg) / float32(arrSize)
+	z := float32(zero) / float32(arrSize)
+	fmt.Printf("%.6f\n", x)
+	fmt.Printf("%.6f\n", y)
+	fmt.Printf("%.6f\n", z)
+
 }
 
 // Complete the aVeryBigSum function below.
