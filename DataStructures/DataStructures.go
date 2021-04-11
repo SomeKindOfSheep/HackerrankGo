@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"strconv"
 	"strings"
 )
 
@@ -25,9 +26,85 @@ func main() {
 
 	//staircase(6)
 
-	//ar := []int32{7, 69, 2, 221, 8974}
+	//ar := []int32{4, 4, 1, 3}
 	//miniMaxSum(ar)
+	//birthdayCakeCandles(ar)
 
+	time := "12:01:00AM"
+	fmt.Println(timeConversion(time))
+}
+
+func timeConversion(s string) string {
+	var sb strings.Builder
+	// check if am or pm
+	// convert
+	if strings.Contains(s, "PM") {
+		firstSplit := strings.Split(s, "PM")
+		secondSplit := strings.Split(firstSplit[0], ":")
+		convertedStringSplit, _ := strconv.Atoi(secondSplit[0])
+		var newValue = convertedStringSplit + 12
+
+		if newValue == 24 {
+			newValue = 12
+		}
+
+		sb.WriteString(strconv.Itoa(newValue))
+		sb.WriteString(":")
+		sb.WriteString(secondSplit[1])
+		sb.WriteString(":")
+		sb.WriteString(secondSplit[2])
+		return sb.String()
+	}
+
+	if strings.Contains(s, "AM") {
+		firstSplit := strings.Split(s, "AM")
+		secondSplit := strings.Split(firstSplit[0], ":")
+		convertedStringSplit, _ := strconv.Atoi(secondSplit[0])
+		var newValue = convertedStringSplit
+		if newValue == 12 {
+			newValue = 0
+		}
+		if newValue < 10 {
+			sb.WriteString("0")
+		}
+		sb.WriteString(strconv.Itoa(newValue))
+		sb.WriteString(":")
+		sb.WriteString(secondSplit[1])
+		sb.WriteString(":")
+		sb.WriteString(secondSplit[2])
+		return sb.String()
+	}
+
+	return ""
+}
+
+func birthdayCakeCandles(candles []int32) int32 {
+	m := make(map[int32]int32)
+
+	for i := 0; i < len(candles); i++ {
+
+		// check if key exists
+		// if yes, increase value
+		if m[candles[i]] == candles[i] {
+		}
+
+		if val, ok := m[candles[i]]; ok {
+			val++
+			mapValue := m[candles[i]]
+			m[candles[i]] = mapValue + 1
+		} else {
+			m[candles[i]] = 1
+		}
+	}
+
+	var maxKey int32 = 0
+	for key := range m {
+		if key > maxKey {
+			maxKey = key
+		}
+	}
+
+	return m[maxKey]
 }
 
 func miniMaxSum(arr []int32) {
